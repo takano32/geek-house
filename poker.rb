@@ -21,7 +21,7 @@ class Poker::Hand
 
 	def sort_by_suit!
 		@cards = @cards.sort do |a, b|
-			a.suit.ord - b.suit.ord
+			a.suit.to_s.ord - b.suit.to_s.ord
 		end
 
 	end
@@ -50,16 +50,41 @@ class Poker::Hand
 			card.suit
 		end
 		return true if suits.uniq.size == 1
+		return false
 	end
 
         # 2:four of a kind (7s 7h 7d 7c As)
 	def four_of_kind?
 		sort_by_number!
+		numbers = Hash.new(0)
+		@cards.each do |card|
+			numbers[card.number] += 1
+		end
+		numbers.each do |number, size|
+			return true if size == 4
+		end
+		return false
 	end
 
         # 3:full house (Ts Th Td 7c 7d)
 	def full_house?
 		sort_by_number!
+		numbers = Hash.new(0)
+		@cards.each do |card|
+			numbers[card.number] += 1
+		end
+
+		three = false
+		numbers.each do |number, size|
+			three = true if size == 3
+		end
+
+		two = false
+		numbers.each do |number, size|
+			two = true if size == 2
+		end
+		return true if three and two
+		return false
 	end
 
         # 4:flush (Ad 4d 5d Jd Kd)
