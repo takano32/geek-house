@@ -132,6 +132,17 @@ class Poker::Hand
 
         # 7:two pair (Ts Th 2c 2h 5d)
 	def two_pair?
+		return true if pairs == 2
+		return false
+	end
+
+        # 8:one pair (2s 2d 5c 6d 9c)
+	def one_pair?
+		return true if pairs == 1
+		return false
+	end
+
+	def pairs
 		sort_by_number!
 		numbers = Hash.new(0)
 		pairs = 0
@@ -141,14 +152,7 @@ class Poker::Hand
 		numbers.each do |number, size|
 			pairs += 1 if size == 2
 		end
-		return true if pairs == 2
-		return false
-
-	end
-
-        # 8:one pair (2s 2d 5c 6d 9c)
-	def one_pair?
-		sort_by_number!
+		return pairs
 	end
 
         # 9:high cards (Ah Jc 5d 4s 9c)
