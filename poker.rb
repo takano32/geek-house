@@ -158,6 +158,7 @@ class Poker::Hand
         # 9:high cards (Ah Jc 5d 4s 9c)
 	def high_cards?
 		sort_by_number!
+		return true
 	end
 end
 
@@ -200,7 +201,8 @@ def poke(inputs)
 	return hand.variants
 end
 
-if __FILE__ == $0 then
+
+def test
 	puts poke %w(As Ks Qs Js Ts)
 	puts
 	puts poke %w(7s 7h 7d 7c As)
@@ -219,5 +221,14 @@ if __FILE__ == $0 then
 	puts
 	puts poke %w(Ah Jc 5d 4s 9c)
 	puts
+end
+
+if __FILE__ == $0 then
+	cards = []
+	ARGV.each do |input|
+		cards << (Poker::Card.new input)
+	end
+	hand = Poker::Hand.new cards
+	puts hand.variants
 end
 
