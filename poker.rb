@@ -10,7 +10,11 @@ class Poker::Hand
 	def initialize(cards)
 		@cards = cards
 		@variants = nil
-		p @cards
+		lines = []
+		@cards.each do |card|
+			lines << "#{card.suit}:#{card.number}"
+		end
+		puts (lines.join ' / ')
 	end
 
 	def sort_by_number!
@@ -90,6 +94,14 @@ class Poker::Hand
         # 4:flush (Ad 4d 5d Jd Kd)
 	def flush?
 		sort_by_suit!
+		suits = Hash.new(0)
+		@cards.each do |card|
+			suits[card.suit] += 1
+		end
+		suits.each do |suit, n|
+			return true if n == 5
+		end
+		return false
 	end
 
         # 5:straight (2s 3h 4s 5d 6c)
@@ -158,13 +170,22 @@ end
 
 if __FILE__ == $0 then
 	puts poke %w(As Ks Qs Js Ts)
+	puts
 	puts poke %w(7s 7h 7d 7c As)
+	puts
 	puts poke %w(Ts Th Td 7c 7d)
+	puts
 	puts poke %w(Ad 4d 5d Jd Kd)
+	puts
 	puts poke %w(2s 3h 4s 5d 6c)
+	puts
 	puts poke %w(9s 9h 9d Ts 3s)
+	puts
 	puts poke %w(Ts Th 2c 2h 5d)
+	puts
 	puts poke %w(2s 2d 5c 6d 9c)
+	puts
 	puts poke %w(Ah Jc 5d 4s 9c)
+	puts
 end
 
