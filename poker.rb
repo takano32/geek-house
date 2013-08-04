@@ -10,6 +10,9 @@ class Poker::Hand
 	def initialize(cards)
 		@cards = cards
 		@variants = nil
+	end
+
+	def to_s
 		lines = []
 		@cards.each do |card|
 			lines << "#{card.suit}:#{card.number}"
@@ -107,6 +110,11 @@ class Poker::Hand
         # 5:straight (2s 3h 4s 5d 6c)
 	def straight?
 		sort_by_number!
+		return false unless @cards[0].number + 1 == @cards[1].number
+		return false unless @cards[1].number + 1 == @cards[2].number
+		return false unless @cards[2].number + 1 == @cards[3].number
+		return false unless @cards[3].number + 1 == @cards[4].number
+		return true
 	end
 
         # 6:three of a kind (9s 9h 9d Ts 3s)
@@ -165,6 +173,7 @@ def poke(inputs)
 		cards << Poker::Card.new(input)
 	end
 	hand = Poker::Hand.new(cards)
+	puts hand.to_s
 	return hand.variants
 end
 
