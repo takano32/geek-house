@@ -120,11 +120,30 @@ class Poker::Hand
         # 6:three of a kind (9s 9h 9d Ts 3s)
 	def three_of_kind?
 		sort_by_number!
+		numbers = Hash.new(0)
+		@cards.each do |card|
+			numbers[card.number] += 1
+		end
+		numbers.each do |number, size|
+			return true if size == 3
+		end
+		return false
 	end
 
         # 7:two pair (Ts Th 2c 2h 5d)
 	def two_pair?
 		sort_by_number!
+		numbers = Hash.new(0)
+		pairs = 0
+		@cards.each do |card|
+			numbers[card.number] += 1
+		end
+		numbers.each do |number, size|
+			pairs += 1 if size == 2
+		end
+		return true if pairs == 2
+		return false
+
 	end
 
         # 8:one pair (2s 2d 5c 6d 9c)
